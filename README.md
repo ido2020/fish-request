@@ -94,7 +94,7 @@ fish.interceptors.request.use(request => {
     request.complete = uni.hideLoading;
     return request;
 });
-// 相应拦截
+// 响应拦截
 fish.interceptors.response.use(response => {
     if (response.statusCode === 200) {
         return data;
