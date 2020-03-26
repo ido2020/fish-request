@@ -9,19 +9,19 @@
         "request",
         "http"
     ],
-    "homepage": "https://github.com/baiyan77/fish-request",
+    "homepage": "https://github.com/ido2020/fish-request",
     "bugs": {
-        "url": "https://github.com/baiyan77/fish-request/issues"
+        "url": "https://github.com/ido2020/fish-request/issues"
     },
     "repository": {
-        "url": "https://github.com/baiyan77/fish-request",
+        "url": "https://github.com/ido2020/fish-request",
         "type": "git"
     },
     "files": [
         "src"
     ],
     "author": {
-        "name": "baiyan77",
+        "name": "ido2020",
         "email": "757857957@qq.com"
     },
     "license": "MIT"
