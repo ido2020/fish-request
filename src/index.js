@@ -50,21 +50,14 @@ const _createInstance = objOrFn => {
             });
     }
     const http = async params => {
-        // 请求被阻塞
         if (blockPromise && !params.greenLight) await blockPromise;
         let result;
         let baseParams = instanceBaseParamsMap[instanceIndex];
-        // 调用时创建实例的promise还未返回
         if (!baseParams) baseParams = await unResolvePromise;
-        // 设置请求前缀
         if (http.default.baseURL) params.url = http.default.baseURL + params.url;
-        // 合并参数
         let mergedParams = paramsMerge({}, baseParams, http.default, params);
-        // 请求拦截器
         if (http._requestInterceptor) mergedParams = http._requestInterceptor(mergedParams);
-        // 发送请求
         result = await _createRequest(mergedParams);
-        // 响应拦截器
         if (http._responseInterceptor) result = http._responseInterceptor(result);
         return result;
     };
@@ -79,7 +72,6 @@ const _createInstance = objOrFn => {
             use: fn => (http._responseInterceptor = fn)
         }
     };
-    // turnOff可以阻塞请求
     http.turnOff = () => {
         blockPromise = new Promise(res => {
             http.turnOn = () => {
