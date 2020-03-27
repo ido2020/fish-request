@@ -25,25 +25,25 @@ yarn add fish-request
 ### 引入：
 
 ```
-import fish from 'fish-request'
+import http from 'fish-request'
 ```
 
 ### 设置请求默认值：
 
 ```
-fish.default.baseURL = "https://www.example.com/request/";
-fish.default.header["content-type"] = "application/x-www-form-urlencoded";
-fish.default.success = ()=>{
+http.default.baseURL = "https://www.example.com/request/";
+http.default.header["content-type"] = "application/x-www-form-urlencoded";
+http.default.success = ()=>{
     console.log('success)
 }
 ```
 
-fish.default 中的 baseURL 属性会被拼接到每次请求的 url 之前，其他可以设置的属性与 [uni.request](https://uniapp.dcloud.io/api/request/request) 的参数相同。
+http.default 中的 baseURL 属性会被拼接到每次请求的 url 之前，其他可以设置的属性与 [uni.request](https://uniapp.dcloud.io/api/request/request) 的参数相同。
 
 ### 发送请求：
 
 ```
-fish({
+http({
     url: 'https://www.example.com/request',
     method:'GET',
     data: {
@@ -63,21 +63,21 @@ fish({
 ### 请求别名:
 
 ```
-fish.get(url[, config])
-fish.post(url[, data[, config]])
+http.get(url[, config])
+http.post(url[, data[, config]])
 ```
 
 ### 阻塞请求:
 
 ```
-fish.default.baseURL = "https://www.example.com/request/";
-fish.turnOff();
-fish.post('getToken',{},{ greenLight: true })
+http.default.baseURL = "https://www.example.com/request/";
+http.turnOff();
+http.post('getToken',{},{ greenLight: true })
 .then((token)=>{
     http.default.header.access_token = token;
-    fish.turnOn();
+    http.turnOn();
 })
-fish.post('getPersonalData',{id:1})
+http.post('getPersonalData',{id:1})
 ```
 
 调用 `turnOff` 方法，后续所有的请求都会被阻塞，直到调用 `turnOn` 方法，请求才会一起发送。可以设置参数 `greenLight:true` ,使此请求不被阻塞。
@@ -88,14 +88,14 @@ fish.post('getPersonalData',{id:1})
 
 ```
 // 请求拦截
-fish.interceptors.request.use(request => {
+http.interceptors.request.use(request => {
     // 设置loading
     uni.showLoading();
     request.complete = uni.hideLoading;
     return request;
 });
 // 响应拦截
-fish.interceptors.response.use(response => {
+http.interceptors.response.use(response => {
     if (response.statusCode === 200) {
         return data;
     } else if (response.statusCode === 500) {
@@ -125,5 +125,5 @@ _参数的合并同 default 合并单独请求，优先级 ： 实列参数 < de
 create 方法接收的参数也可以是函数或异步函数：
 
 ```
-fish.create(async ()=>{})
+http.create(async ()=>{})
 ```
