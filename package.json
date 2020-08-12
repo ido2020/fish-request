@@ -1,6 +1,6 @@
 {
     "name": "fish-request",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "description": "fish-request是一个基于promise的uni-app网络请求库",
     "main": "src/index.js",
     "module": "src/index.js",
