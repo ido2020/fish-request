@@ -61,9 +61,14 @@ const _createInstance = (objOrFn) => {
         let mergedParams = paramsMerge({}, baseParams, http.default, params);
         if (http._requestInterceptor) mergedParams = http._requestInterceptor(mergedParams);
         const request = _createRequest(mergedParams);
-        sendingLenght++;
-        result = await request;
-        sendingLenght--;
+        try {
+            sendingLenght++;
+            result = await request;
+        } catch (error) {
+            throw error;
+        } finally {
+            sendingLenght--;
+        }
         if (http._responseInterceptor) result = http._responseInterceptor(result);
         return result;
     };
