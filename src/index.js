@@ -20,6 +20,8 @@ const _createRequest = (params) => {
 const instanceBaseParamsMap = {};
 let instanceBaseParamsIndex = 0;
 
+let sendingLenght = 0;
+
 const _createInstance = (objOrFn) => {
     let instanceIndex = instanceBaseParamsIndex++;
     let unResolvePromise;
@@ -59,16 +61,15 @@ const _createInstance = (objOrFn) => {
         let mergedParams = paramsMerge({}, baseParams, http.default, params);
         if (http._requestInterceptor) mergedParams = http._requestInterceptor(mergedParams);
         const request = _createRequest(mergedParams);
-        // 记录当前正在发送的请求
-        // if (params.name) http.sendingList[params.name] = request.then(() => delete http.sendingList[params.name]);
+        sendingLenght++;
         result = await request;
+        sendingLenght--;
         if (http._responseInterceptor) result = http._responseInterceptor(result);
         return result;
     };
     http.get = (url, params) => http({ url, ...params, method: "GET" });
     http.post = (url, data, params) => http({ url, ...params, method: "POST", data });
     http.default = { header: {} };
-    // http.sendingList = {};
     http.interceptors = {
         request: {
             use: (fn) => (http._requestInterceptor = fn),
@@ -85,6 +86,7 @@ const _createInstance = (objOrFn) => {
             };
         });
     };
+    http.getSendingLenght = () => sendingLenght;
     return http;
 };
 
